@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Nakchadi Page 😌</title>
+<title>Hass bhii lo</title>
 <style>
 body {
   text-align:center;
@@ -26,43 +26,30 @@ button {
 </head>
 <body>
 
-<h1>Are you Nakchadi? 🙂🤷‍♂️</h1>
-<button id="startBtn">Tap/Click to Start 💕</button>
+<div id="questionArea">
+  <h1>Are you Nakchadi? 🙂🤷‍♂️</h1>
+  <div class="buttons">
+    <button id="yes">YES 😌</button>
+    <button id="no">NO 😅</button>
+  </div>
+</div>
 
-<!-- Custom Music -->
+<!-- Background Music -->
 <audio id="bgMusic" loop preload="auto">
   <source src="https://github.com/ovpsk/oh-paaji-kadi-hass-vii-liya-karo/raw/main/mylove.mp3" type="audio/mpeg">
 </audio>
 
-<div class="buttons" style="display:none;">
-  <button id="yes">YES 😌</button>
-  <button id="no">NO 😅</button>
-</div>
-
 <script>
 const music = document.getElementById("bgMusic");
-const startBtn = document.getElementById("startBtn");
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
+const questionArea = document.getElementById("questionArea");
 let yesSize = 1;
 
-// Start button click → show YES/NO + play music
-startBtn.addEventListener("click", function() {
+// Start music on first click anywhere in question area
+questionArea.addEventListener("click", function(){
     music.play().catch(()=>alert("Tap again to start music 🎵"));
-    document.querySelector(".buttons").style.display = "block";
-    startBtn.style.display = "none";
-});
-
-// YES click → personalized message + hearts
-yesBtn.addEventListener("click", function(){
-    music.play();
-    document.body.innerHTML = `
-      <h1 style='margin-top:120px;color:white;font-size:60px;'>Nikitaaaaaaaaaaaaa FAAAHHHHHHHHH 😌</h1>
-      <h2 style='color:white;font-size:40px;'>Yayyy, You finally accepted it!!😌</h2>
-      <h2 style='color:white;'>Karwa diya na accept, Yeh Jalwa hai hamara!!😎</h2>
-    `;
-    startHearts();
-});
+}, {once:true});
 
 // NO button moves & makes YES grow
 function moveNo(){
@@ -73,13 +60,27 @@ function moveNo(){
     yesSize += 0.2;
     yesBtn.style.transform = "scale("+yesSize+")";
 }
+noBtn.addEventListener("mouseover", moveNo);
+
+// YES click → show final message, keep audio
+yesBtn.addEventListener("click", function(){
+    const message = document.createElement("div");
+    message.innerHTML = `
+      <h1 style='margin-top:120px;color:white;font-size:60px;'>Nikitaaaaaaaaaaaaa FAAAHHHHHHHHH 😌</h1>
+      <h2 style='color:white;font-size:40px;'>Yayyy, You finally accepted it!!😌</h2>
+      <h2 style='color:white;'>Karwa diya na accept, Yeh Jalwa hai hamara!!😎</h2>
+    `;
+    document.body.appendChild(message);
+    startHearts();
+    questionArea.style.display = "none"; // hide original question
+});
 
 // Floating hearts
 function startHearts(){
     setInterval(()=>{
         const heart = document.createElement("div");
         heart.classList.add("heart");
-        heart.innerHTML="💕💅";  // custom hearts
+        heart.innerHTML="💕💅";
         heart.style.left=Math.random()*100+"vw";
         document.body.appendChild(heart);
         setTimeout(()=>heart.remove(),3000);
