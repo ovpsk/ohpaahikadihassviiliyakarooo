@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Nakchadi Page 😌</title>
+<style>
+body {
+  text-align:center;
+  font-family:Arial;
+  background: linear-gradient(to right,#ff758c,#ff7eb3);
+  height:100vh;
+  overflow:hidden;
+  margin:0;
+}
+h1 { margin-top:100px; font-size:45px; color:white; }
+button {
+  padding:15px 35px; font-size:20px; border:none; border-radius:40px;
+  cursor:pointer; transition:0.2s;
+  position:relative;
+}
+#startBtn { margin-top:200px; font-size:25px; }
+#yes { background:white; color:#ff4d6d; transform:scale(1); left:40%; position:absolute; }
+#no { background:#ff4d6d; color:white; left:55%; position:absolute; }
+.heart { position:fixed; color:white; font-size:20px; animation:floatUp 3s linear infinite; }
+@keyframes floatUp {0% {transform:translateY(100vh); opacity:1;} 100%{transform:translateY(-10vh);opacity:0;}}
+</style>
+</head>
+<body>
+
+<h1>Are you Nakchadi? 🙂🤷‍♂️</h1>
+<button id="startBtn">Tap/Click to Start 💕</button>
+
+<!-- Custom Music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://github.com/ovpsk/oh-paaji-kadi-hass-vii-liya-karo/raw/main/mylove.mp3" type="audio/mpeg">
+</audio>
+
+<div class="buttons" style="display:none;">
+  <button id="yes">YES 😌</button>
+  <button id="no">NO 😅</button>
+</div>
+
+<script>
+const music = document.getElementById("bgMusic");
+const startBtn = document.getElementById("startBtn");
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+let yesSize = 1;
+
+// Start button click → show YES/NO + play music
+startBtn.addEventListener("click", function() {
+    music.play().catch(()=>alert("Tap again to start music 🎵"));
+    document.querySelector(".buttons").style.display = "block";
+    startBtn.style.display = "none";
+});
+
+// YES click → personalized message + hearts
+yesBtn.addEventListener("click", function(){
+    music.play();
+    document.body.innerHTML = `
+      <h1 style='margin-top:120px;color:white;font-size:60px;'>Nikitaaaaaaaaaaaaa FAAAHHHHHHHHH 😌</h1>
+      <h2 style='color:white;font-size:40px;'>Yayyy, You finally accepted it!!😌</h2>
+      <h2 style='color:white;'>Karwa diya na accept, Yeh Jalwa hai hamara!!😎</h2>
+    `;
+    startHearts();
+});
+
+// NO button moves & makes YES grow
+function moveNo(){
+    const x = Math.random()*(window.innerWidth-100);
+    const y = Math.random()*(window.innerHeight-100);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+    yesSize += 0.2;
+    yesBtn.style.transform = "scale("+yesSize+")";
+}
+
+// Floating hearts
+function startHearts(){
+    setInterval(()=>{
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML="💕💅";  // custom hearts
+        heart.style.left=Math.random()*100+"vw";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),3000);
+    },300);
+}
+</script>
+
+</body>
+</html>
